@@ -22,7 +22,8 @@
   },
   "scripts": {
     "build": "tsup",
-    "dev": "tsup --watch"
+    "dev": "tsup --watch",
+    "prepublishOnly": "npm run build"
   },
   "devDependencies": {
     "@types/fs-extra": "^9.0.13",
