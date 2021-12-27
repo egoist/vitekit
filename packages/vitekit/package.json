@@ -1,0 +1,40 @@
+{
+  "name": "vitekit",
+  "version": "0.0.0",
+  "files": [
+    "dist",
+    "/plugin.js",
+    "/plugin.d.ts",
+    "/server.js",
+    "/server.d.ts"
+  ],
+  "type": "module",
+  "exports": {
+    "./plugin": {
+      "import": "./plugin.js"
+    },
+    "./server": {
+      "import": "./server.js"
+    },
+    "./routes": {
+      "import": "./routes.js"
+    }
+  },
+  "scripts": {
+    "build": "tsup",
+    "dev": "tsup --watch"
+  },
+  "devDependencies": {
+    "@types/fs-extra": "^9.0.13",
+    "node-fetch": "^3.1.0",
+    "vite": "^2.7.7",
+    "regexparam": "^2.0.0"
+  },
+  "dependencies": {
+    "fs-extra": "^10.0.0",
+    "upath": "^2.0.1"
+  },
+  "peerDependencies": {
+    "vite": "^2.7.7"
+  }
+}

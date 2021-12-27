@@ -1,0 +1,16 @@
+{
+  "private": true,
+  "name": "test-simple",
+  "type": "module",
+  "scripts": {
+    "dev": "vite",
+    "build": "vite build",
+    "start": "node server/index.js"
+  },
+  "devDependencies": {
+    "vitekit": "workspace:*",
+    "vite": "^2.7.7",
+    "@vitekit/adapter-node": "workspace:*",
+    "h3": "^0.3.8"
+  }
+}
