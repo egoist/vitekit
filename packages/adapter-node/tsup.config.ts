@@ -8,5 +8,5 @@ export default defineConfig({
   },
   format: ["esm"],
   shims: false,
-  external: [".vitekit"],
+  external: ["vitekit"],
 })

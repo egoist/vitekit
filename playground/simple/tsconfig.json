@@ -3,7 +3,7 @@
   "compilerOptions": {
     "baseUrl": ".",
     "paths": {
-      "vitekit/*": ["./node_modules/.vitekit/*"]
+      "vitekit/*": ["./.vitekit/runtime/*"]
     }
   }
 }

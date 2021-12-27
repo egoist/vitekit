@@ -5,16 +5,13 @@ import fetch, {
   Response as NodeResponse,
 } from "node-fetch"
 import { matchRoute, BaseLoaderFunction } from "@vitekit/server-utils"
-import { routes } from ".vitekit/routes.js"
+import { routes } from "vitekit/routes.js"
 
 Object.assign(globalThis, {
   fetch,
   Request: NodeRequest,
   Response: NodeResponse,
 })
-
-declare var Request: NodeRequest
-declare var Response: NodeRequest
 
 export type LoaderFunction = BaseLoaderFunction<NodeRequest>
 export type ActionFunction = BaseLoaderFunction<NodeRequest>

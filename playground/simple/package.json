@@ -3,14 +3,16 @@
   "name": "test-simple",
   "type": "module",
   "scripts": {
-    "dev": "vite",
-    "build": "vite build",
+    "dev": "vitekit",
+    "build": "vitekit build",
     "start": "node server/index.js"
+  },
+  "dependencies": {
+    "h3": "^0.3.8",
+    "sirv": "^1.0.19"
   },
   "devDependencies": {
     "vitekit": "workspace:*",
-    "vite": "^2.7.7",
-    "@vitekit/adapter-node": "workspace:*",
-    "h3": "^0.3.8"
+    "@vitekit/adapter-node": "workspace:*"
   }
 }

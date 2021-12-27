@@ -3,5 +3,5 @@ node_modules
 .DS_Store
 dist
 *.cache.json
-vitekit-exports/
 build/
+.vitekit

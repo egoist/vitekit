@@ -1,54 +1,20 @@
 import fs from "fs-extra"
 import path from "upath"
 import { Plugin, build } from "vite"
+import { ViteKit } from "./node"
 import { writeRoutes } from "./routes"
-import { findUp } from "./utils"
 
-export type Options = {
-  root?: string
-  routesDir?: string
-}
-
-class ViteKit {
-  root: string
-  routesDir: string
-  nodeModulesDir: string
-  runtimeDir: string
-  constructor(options: Options) {
-    this.root = options.root || process.cwd()
-    this.routesDir = path.join(this.root, options.routesDir || "routes")
-    const nodeModulesDir = findUp(["node_modules"], this.root)
-    if (!nodeModulesDir) {
-      throw new Error("No node_modules found.")
-    }
-    this.nodeModulesDir = nodeModulesDir
-    this.runtimeDir = path.join(this.nodeModulesDir, ".vitekit")
-  }
-}
-
-const plugin = (options: Options = {}): Plugin => {
-  let kit: ViteKit
-
-  const ssrBuild = !!process.env.VITEKIT_SSR_BUILD
-
+export const createVitePlugin = (kit: ViteKit): Plugin => {
   return {
     name: "vitekit",
 
     resolveId(id) {
-      if (id.startsWith(".vitekit/")) {
-        return id.replace(
-          ".vitekit",
-          path.join(kit.root, "node_modules/.vitekit")
-        )
+      if (id.startsWith("vitekit/")) {
+        return id.replace("vitekit", kit.runtimeDir).replace(/(\.js)?$/, ".js")
       }
     },
 
-    configResolved(_config) {
-      kit = new ViteKit({ root: _config.root, ...options })
-    },
-
     async buildStart() {
-      if (ssrBuild) return
       const pkg = JSON.parse(
         fs.readFileSync(path.join(kit.root, "package.json"), "utf8")
       )
@@ -97,9 +63,7 @@ const plugin = (options: Options = {}): Plugin => {
         serverRuntimeTypes
       )
 
-      const routesFile = writeRoutes(kit.routesDir, kit.runtimeDir)
-
-      this.addWatchFile(routesFile)
+      writeRoutes(kit.routesDir, kit.runtimeDir)
     },
 
     configureServer(server) {
@@ -121,29 +85,27 @@ const plugin = (options: Options = {}): Plugin => {
         .on("addDir", (filepath) => {
           updateRoutes(filepath)
         })
-      server.middlewares.use(async (req, res, next) => {
-        const mod = await server.ssrLoadModule(`vitekit/server`)
-        mod.middleware(req, res, next)
-      })
-    },
 
-    async buildEnd(err) {
-      if (ssrBuild || err) return
+      // Apply after Vite serving static files
+      return () => {
+        // Serve the routes
+        server.middlewares.use(async (req, res, next) => {
+          const mod = await server.ssrLoadModule(`vitekit/server`)
+          mod.middleware(req, res, next)
+        })
 
-      process.env.VITEKIT_SSR_BUILD = "true"
-      await build({
-        build: {
-          ssr: path.join(kit.runtimeDir, "server.js"),
-          outDir: "build",
-          rollupOptions: {
-            output: {
-              format: "esm",
-            },
-          },
-        },
-      })
+        // Serve index.html and assets
+        server.middlewares.use(async (req, res, next) => {
+          const htmlFile = path.join(kit.root, "index.html")
+          if (!fs.existsSync(htmlFile)) {
+            return next()
+          }
+          const html = fs.readFileSync(htmlFile, "utf8")
+          const result = await server.transformIndexHtml(req.url!, html)
+          res.setHeader("Content-Type", "text/html")
+          res.end(result)
+        })
+      }
     },
   }
 }
-
-export default plugin
