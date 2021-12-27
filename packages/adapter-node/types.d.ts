@@ -1,1 +1,1 @@
-declare module "vitekit/routes"
+declare module ".vitekit/*"

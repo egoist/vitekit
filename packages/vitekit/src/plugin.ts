@@ -97,7 +97,9 @@ const plugin = (options: Options = {}): Plugin => {
         serverRuntimeTypes
       )
 
-      writeRoutes(kit.routesDir, kit.runtimeDir)
+      const routesFile = writeRoutes(kit.routesDir, kit.runtimeDir)
+
+      this.addWatchFile(routesFile)
     },
 
     configureServer(server) {

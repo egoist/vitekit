@@ -70,5 +70,7 @@ export const writeRoutes = (routesDir: string, runtimeDir: string) => {
   ]
   export { routes }
   `
-  fs.outputFileSync(path.join(runtimeDir, "routes.js"), routesContent)
+  const routesFile = path.join(runtimeDir, "routes.js")
+  fs.outputFileSync(routesFile, routesContent)
+  return routesFile
 }

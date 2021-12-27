@@ -11,10 +11,13 @@
   "scripts": {
     "build": "tsup",
     "dev": "tsup --watch",
-    "prepublishOnly": "npm run build"
+    "prepublishOnly": "npm run build",
+    "release": "release",
+    "changelog": "echo skip"
   },
   "devDependencies": {
     "node-fetch": "^3.1.0",
-    "@vitekit/server-utils": "workspace:*"
+    "@vitekit/server-utils": "workspace:*",
+    "scripts": "workspace:*"
   }
 }

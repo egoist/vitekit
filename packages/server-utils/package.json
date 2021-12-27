@@ -3,7 +3,7 @@
   "publishConfig": {
     "access": "public"
   },
-  "version": "0.0.0",
+  "version": "0.0.1",
   "type": "module",
   "files": [
     "dist"
@@ -13,9 +13,12 @@
   "scripts": {
     "build": "tsup",
     "dev": "tsup --watch",
-    "prepublishOnly": "npm run build"
+    "prepublishOnly": "npm run build",
+    "release": "release",
+    "changelog": "echo skip"
   },
   "devDependencies": {
-    "regexparam": "^2.0.0"
+    "regexparam": "^2.0.0",
+    "scripts": "workspace:*"
   }
 }

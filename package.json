@@ -1,6 +1,9 @@
 {
   "private": true,
   "name": "vitekit-workspace",
+  "scripts": {
+    "release": "release"
+  },
   "devDependencies": {
     "@egoist/prettier-config": "^1.0.0",
     "esbuild": "^0.14.8",

@@ -5,7 +5,7 @@ import fetch, {
   Response as NodeResponse,
 } from "node-fetch"
 import { matchRoute, BaseLoaderFunction } from "@vitekit/server-utils"
-import { routes } from "vitekit/routes"
+import { routes } from ".vitekit/routes.js"
 
 Object.assign(globalThis, {
   fetch,

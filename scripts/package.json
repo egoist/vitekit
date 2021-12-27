@@ -1,0 +1,16 @@
+{
+  "private": true,
+  "name": "scripts",
+  "bin": {
+    "release": "./release.ts"
+  },
+  "dependencies": {
+    "@types/prompts": "^2.0.14",
+    "colorette": "^2.0.16",
+    "@types/semver": "^7.3.9",
+    "execa": "^6.0.0",
+    "prompts": "^2.4.2",
+    "semver": "^7.3.5",
+    "minimist": "^1.2.5"
+  }
+}
