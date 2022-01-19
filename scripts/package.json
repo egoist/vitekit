@@ -1,0 +1,29 @@
+{
+  "private": true,
+  "name": "scripts",
+  "bin": {
+    "release": "./release.ts",
+    "build": "./build.ts"
+  },
+  "scripts": {
+    "dev": "node -r esbuild-register ./dev.ts"
+  },
+  "dependencies": {
+    "@rollup/plugin-commonjs": "^21.0.1",
+    "@rollup/plugin-inject": "^4.0.4",
+    "@rollup/plugin-json": "^4.1.0",
+    "@rollup/plugin-node-resolve": "^13.1.3",
+    "@types/prompts": "^2.0.14",
+    "@types/semver": "^7.3.9",
+    "colorette": "^2.0.16",
+    "esbuild": "^0.14.8",
+    "execa": "^6.0.0",
+    "minimist": "^1.2.5",
+    "prompts": "^2.4.2",
+    "rollup": "^2.64.0",
+    "rollup-plugin-dts": "^4.1.0",
+    "rollup-plugin-esbuild": "^4.8.2",
+    "rollup-plugin-hashbang": "^3.0.0",
+    "semver": "^7.3.5"
+  }
+}

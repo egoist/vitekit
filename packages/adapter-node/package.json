@@ -1,0 +1,30 @@
+{
+  "name": "@vitekit/adapter-node",
+  "version": "0.0.1",
+  "publishConfig": {
+    "access": "public"
+  },
+  "files": [
+    "dist"
+  ],
+  "types": "./dist/index.d.ts",
+  "exports": {
+    ".": "./dist/index.js",
+    "./dist/runtime/*": "./dist/runtime/*"
+  },
+  "type": "module",
+  "scripts": {
+    "build": "build",
+    "dev": "build --watch",
+    "prepublishOnly": "npm run build",
+    "release": "release",
+    "changelog": "echo skip"
+  },
+  "devDependencies": {
+    "scripts": "workspace:*",
+    "vitekit": "workspace:*"
+  },
+  "peerDependencies": {
+    "vitekit": "workspace:*"
+  }
+}

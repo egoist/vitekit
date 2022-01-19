@@ -1,0 +1,10 @@
+node_modules
+*.log
+.DS_Store
+dist
+*.cache.json
+build/
+.vitekit
+.tsbuildinfo
+types-temp/
+types/
