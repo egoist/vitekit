@@ -8,8 +8,7 @@
     "start": "node server/index.js"
   },
   "dependencies": {
-    "h3": "^0.3.8",
-    "sirv": "^1.0.19",
+    "express": "^4.17.2",
     "vue": "^3.2.27"
   },
   "devDependencies": {

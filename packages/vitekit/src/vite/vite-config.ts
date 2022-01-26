@@ -12,14 +12,17 @@ export const getViteConfig = (kit: ViteKit, isServer: boolean) => {
     },
     build: {
       outDir: path.join(kit.outDir, isServer ? "server" : "client"),
-      ssr: isServer
-        ? path.join(kit.runtimeDir, "server.js")
-        : path.join(kit.runtimeDir, "client.js"),
+      ssr: isServer,
       rollupOptions: {
+        input: isServer
+          ? path.join(kit.runtimeDir, "server.js")
+          : path.join(kit.runtimeDir, "client.js"),
         output: {
           format: "esm",
         },
       },
+      manifest: !isServer,
+      ssrManifest: isServer,
     },
     // @ts-expect-error experimental api
     ssr: {},

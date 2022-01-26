@@ -8,3 +8,4 @@ build/
 .tsbuildinfo
 types-temp/
 types/
+out/

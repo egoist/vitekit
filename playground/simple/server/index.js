@@ -1,19 +1,14 @@
 // @ts-check
-import http from "http"
-import { createApp } from "h3"
-import serveStatic from "sirv"
-import { middleware } from "../build/server/server.js"
+import express from "express"
+import { createRequestHandler } from "../out/server/server.js"
 
-const app = createApp()
+const app = express()
 
 // Serve static files
-app.use(serveStatic("./build/client"))
+app.use(express.static("./out/client"))
 
 // Serve routes
-app.use(middleware)
+app.use(createRequestHandler())
 
-// Fallback to SPA
-app.use(serveStatic("./build/client", { single: true }))
-
-http.createServer(app).listen(3001)
+app.listen(3001)
 console.log("> http://localhost:3001")
