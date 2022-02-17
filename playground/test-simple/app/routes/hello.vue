@@ -1,6 +1,6 @@
 <script lang="ts">
 import fs from "fs"
-import { Middleware } from ".vitekit-runtime/index"
+import { Middleware, json } from ".vitekit-package/server"
 
 type LoaderData = {
   title: string
@@ -8,27 +8,21 @@ type LoaderData = {
 }
 
 export const loader: Middleware<LoaderData> = () => {
-  return {
-    body: {
-      title: "Hello",
-      code: fs.readFileSync("app/routes/hello.vue", "utf8"),
-    },
-  }
+  return json({
+    title: "Hello",
+    code: fs.readFileSync("app/routes/hello.vue", "utf8"),
+  })
 }
 </script>
 
 <script setup lang="ts">
-import { computed, ref } from "vue"
-import { useLoaderData, useHead } from ".vitekit-runtime/index"
+import { ref } from "vue"
+import { useLoaderData } from ".vitekit-package/index"
 
 const count = ref(0)
 const data = useLoaderData<LoaderData>()
 
 const inc = () => count.value++
-
-useHead({
-  title: computed(() => data.value.title),
-})
 </script>
 
 <template>

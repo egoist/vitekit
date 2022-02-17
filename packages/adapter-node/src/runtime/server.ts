@@ -6,7 +6,7 @@ import {
   handleRequest,
 } from "vitekit/shared/server.js"
 import { incomingMessageToNodeRequest } from "vitekit/shared/node-server.js"
-import { routes } from ".vitekit-runtime/routes.js"
+import { routes } from "/.vitekit/generated/routes.js"
 
 export const createRequestHandler =
   ({

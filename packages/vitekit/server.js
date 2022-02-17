@@ -1,1 +1,1 @@
-export * from ".vitekit-runtime/server.js"
+export * from ".vitekit-package/server.js"

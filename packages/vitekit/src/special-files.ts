@@ -10,10 +10,10 @@ const NOTFOUND_FILE_NAMES = ROUTE_EXTENSIONS.map((ext) => `404${ext}`)
 
 export const writeSpecialFiles = async ({
   appDir,
-  runtimeDir,
+  generatedDir,
 }: {
   appDir: string
-  runtimeDir: string
+  generatedDir: string
 }) => {
   const files = await fs.readdir(appDir)
   let documentFile: string | undefined
@@ -67,23 +67,23 @@ export const writeSpecialFiles = async ({
 
   const content = `
   export let rootFile = () => import("${path.relative(
-    runtimeDir,
+    generatedDir,
     path.join(appDir, rootFile)
   )}")
   export let documentFile = () => import("${path.relative(
-    runtimeDir,
+    generatedDir,
     path.join(appDir, documentFile)
   )}")
   export let errorFile = () => import("${path.relative(
-    runtimeDir,
+    generatedDir,
     path.join(appDir, errorFile)
   )}")
   export let notFoundFile = () => import("${path.relative(
-    runtimeDir,
+    generatedDir,
     path.join(appDir, notFoundFile)
   )}")
   
   `
 
-  await fs.outputFile(path.join(runtimeDir, "special-files.js"), content)
+  await fs.outputFile(path.join(generatedDir, "special-files.js"), content)
 }

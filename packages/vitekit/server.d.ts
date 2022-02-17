@@ -1,1 +1,1 @@
-export * from ".vitekit-runtime/server"
+export * from ".vitekit-package/server"

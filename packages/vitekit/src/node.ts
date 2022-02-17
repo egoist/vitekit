@@ -30,7 +30,10 @@ export class ViteKit {
   appDir: string
   routesDir: string
   nodeModulesDir: string
-  runtimeDir: string
+  /** output to node_modules */
+  generatedPackagesDir: string
+  /** For routes and files that will change during development */
+  generatedDir: string
   dev: boolean
   plugins: Plugin[]
   outDir: string
@@ -45,7 +48,8 @@ export class ViteKit {
       throw new Error("No node_modules found.")
     }
     this.nodeModulesDir = nodeModulesDir
-    this.runtimeDir = path.join(nodeModulesDir, ".vitekit-runtime")
+    this.generatedPackagesDir = path.join(nodeModulesDir, ".vitekit-package")
+    this.generatedDir = path.join(this.root, ".vitekit/generated")
     this.outDir = path.join(this.root, "out")
     this.plugins = []
   }
@@ -58,17 +62,10 @@ export class ViteKit {
     const runtimeFiles: Record<string, { code: string; type: string }> = {
       server: {
         code: `import "./global";
-        export {
-          redirect
-        } from "vitekit/shared/server.js"
+        export * from "vitekit/shared/server.js"
         `,
         type: `
-        export {
-          redirect,
-          Middleware,
-          MiddlewareArgs,
-          MiddlewareResult,
-        } from "vitekit/shared/server"
+        export * from "vitekit/shared/server"
         `,
       },
       index: {
@@ -125,22 +122,22 @@ export class ViteKit {
 
     for (const name in runtimeFiles) {
       outputFileSync(
-        path.join(this.runtimeDir, `${name}.js`),
+        path.join(this.generatedPackagesDir, `${name}.js`),
         runtimeFiles[name].code
       )
       outputFileSync(
-        path.join(this.runtimeDir, `${name}.d.ts`),
+        path.join(this.generatedPackagesDir, `${name}.d.ts`),
         runtimeFiles[name].type
       )
     }
 
     await writeRoutes({
       routesDir: this.routesDir,
-      runtimeDir: this.runtimeDir,
+      generatedDir: this.generatedDir,
     })
     await writeSpecialFiles({
       appDir: this.appDir,
-      runtimeDir: this.runtimeDir,
+      generatedDir: this.generatedDir,
     })
 
     // initialize plugins

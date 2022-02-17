@@ -6,9 +6,9 @@ export const createVitePlugin = (kit: ViteKit): Plugin => {
     name: "vitekit",
 
     resolveId(id) {
-      if (id.startsWith(".vitekit-runtime")) {
+      if (id.startsWith(".vitekit-package")) {
         return id
-          .replace(".vitekit-runtime", kit.runtimeDir)
+          .replace(".vitekit-package", kit.generatedPackagesDir)
           .replace(/(\.js)?$/, ".js")
       }
     },

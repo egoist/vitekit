@@ -1,5 +1,5 @@
 <script lang="ts">
-import { Middleware, redirect } from ".vitekit-runtime/server"
+import { Middleware, redirect } from ".vitekit-package/server"
 
 globalThis.todos = globalThis.todos || []
 
@@ -30,7 +30,7 @@ export const action: Middleware = async ({ request }) => {
 </script>
 
 <script lang="ts" setup>
-import { useLoaderData } from ".vitekit-runtime/index"
+import { useLoaderData } from ".vitekit-package/index"
 
 const loaderData = useLoaderData<LoaderData>()
 </script>

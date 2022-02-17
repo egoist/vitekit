@@ -1,4 +1,3 @@
-import * as chalk from "colorette"
 import { execa } from "execa"
 import prompts from "prompts"
 
@@ -13,30 +12,27 @@ const getPackages = async () => {
     "--json",
   ])
 
-  return (JSON.parse(stdout) as WorkspacePackage[]).filter(
-    (p) => p.name !== "vitekit-workspace"
-  )
+  return (JSON.parse(stdout) as WorkspacePackage[])
+    .filter((p) => p.name !== "vitekit-workspace" && p.name !== "scripts")
+    .sort((a, b) => {
+      return a.name.startsWith("test-") ? -1 : 1
+    })
 }
 
-const runScripts = async (packages: WorkspacePackage[], script: string) => {
-  for (const p of packages) {
-    const cmd = execa("pnpm", ["run", script, "--filter", p.name])
-    cmd.stdout?.on("data", (data) => {
-      console.log(chalk.cyan(chalk.bold(p.name)), data.toString())
-    })
-    cmd.stderr?.on("data", (data) => {
-      console.log(chalk.cyan(chalk.bold(p.name)), data.toString())
-    })
-  }
+const runScript = async (pkg: WorkspacePackage, script: string) => {
+  execa("pnpm", ["run", script, "--filter", `${pkg.name}...`, "--parallel"], {
+    stdio: "inherit",
+    preferLocal: true,
+  })
 }
 
 async function main() {
   const packages = await getPackages()
-  const { names } = await prompts([
+  const { name } = await prompts([
     {
-      name: "names",
-      message: "Choose the packages to run dev script",
-      type: "multiselect",
+      name: "name",
+      message: "Choose the package to run dev script",
+      type: "select",
       choices: packages.map((p) => {
         return {
           title: p.name,
@@ -45,10 +41,7 @@ async function main() {
       }),
     },
   ])
-  runScripts(
-    packages.filter((p) => names.includes(p.name)),
-    "dev"
-  )
+  runScript(packages.find((p) => p.name === name)!, "dev")
 }
 
 main().catch((error) => {

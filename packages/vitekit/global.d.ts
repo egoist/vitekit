@@ -1,3 +1,4 @@
 /// <reference types="vite/client" />
 
-declare module ".vitekit-runtime/*"
+declare module "/.vitekit/*"
+declare module ".vitekit-package/*"

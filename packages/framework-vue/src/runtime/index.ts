@@ -1,9 +1,19 @@
 import { computed, ComputedRef } from "vue"
+import { RouteLocationRaw, useRoute, useRouter } from "vue-router"
 import { useVitekit } from "./inject"
-import { useRoute } from "vue-router"
 
-export { useRoute, useRouter, RouterLink } from "vue-router"
-export { useHead, Head } from "@vueuse/head"
+export const useNavigate = () => {
+  const router = useRouter()
+  return (to: RouteLocationRaw, replace = false) => {
+    if (replace) {
+      router.replace(to)
+    } else {
+      router.push(to)
+    }
+  }
+}
+
+export { useRoute }
 
 export const useLoaderData = <T = any>(): ComputedRef<T> => {
   const route = useRoute()

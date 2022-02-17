@@ -1,4 +1,4 @@
-import { Middleware } from ".vitekit-runtime/index"
+import { Middleware } from ".vitekit-package/server"
 
 export const loader: Middleware = async ({ params }) => {
   const postRes = await fetch(

@@ -57,10 +57,10 @@ const getRouteFiles = (
 
 export const writeRoutes = async ({
   routesDir,
-  runtimeDir,
+  generatedDir,
 }: {
   routesDir: string
-  runtimeDir: string
+  generatedDir: string
 }) => {
   const { files } = getRouteFiles(routesDir)
 
@@ -102,7 +102,7 @@ export const writeRoutes = async ({
               hasAction: ${route.hasAction},
               hasDefault: ${route.hasDefault},
               load: () => import("${path.relative(
-                runtimeDir,
+                generatedDir,
                 route.absolutePath
               )}")
           }`
@@ -117,7 +117,7 @@ export const writeRoutes = async ({
   export { routes }
   `
 
-  const routesFile = path.join(runtimeDir, "routes.js")
+  const routesFile = path.join(generatedDir, "routes.js")
   fs.outputFileSync(routesFile, routesContent)
 
   const clientRoutes = routes.filter((route) => route.hasDefault)
@@ -130,7 +130,10 @@ export const writeRoutes = async ({
         .map((route) => {
           return `{
           path: "${route.path}",
-          load: () => import("${path.relative(runtimeDir, route.absolutePath)}")
+          load: () => import("${path.relative(
+            generatedDir,
+            route.absolutePath
+          )}")
         }`
         })
         .join(",\n")}
@@ -144,6 +147,6 @@ export const writeRoutes = async ({
     export { routes }
     `
 
-  const clientRoutesFile = path.join(runtimeDir, "client-routes.js")
+  const clientRoutesFile = path.join(generatedDir, "client-routes.js")
   fs.outputFileSync(clientRoutesFile, clientRoutesContent)
 }

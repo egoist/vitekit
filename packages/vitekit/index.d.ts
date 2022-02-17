@@ -1,1 +1,1 @@
-export * from ".vitekit-runtime/index"
+export * from ".vitekit-package/index"

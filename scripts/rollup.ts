@@ -141,7 +141,7 @@ export const createConfig = ({
       {
         name: "external",
         resolveId(id) {
-          if (id.startsWith("/.reze/")) {
+          if (id.startsWith("/.vitekit/")) {
             return {
               id,
               external: "absolute",

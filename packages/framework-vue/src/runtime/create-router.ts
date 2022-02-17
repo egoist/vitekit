@@ -3,7 +3,7 @@ import {
   createMemoryHistory,
   createWebHistory,
 } from "vue-router"
-import { routes } from ".vitekit-runtime/client-routes.js"
+import { routes } from "/.vitekit/generated/client-routes.js"
 
 export const createRouter = () => {
   const router = createVueRouter({

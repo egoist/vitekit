@@ -1,5 +1,5 @@
 import { parse } from "regexparam"
-import { renderApp } from ".vitekit-runtime/server.js"
+import { renderApp } from ".vitekit-package/server.js"
 
 export type MaybePromise<T> = T | Promise<T>
 
@@ -29,9 +29,9 @@ export type MiddlewareArgs = {
 
 export type MiddlewareResult<TData = any> = TData | Response | false
 
-export type Middleware<TBody = any> = (
+export type Middleware<TData = any> = (
   args: MiddlewareArgs
-) => MaybePromise<MiddlewareResult<TBody> | null | undefined | void>
+) => MaybePromise<MiddlewareResult<TData> | null | undefined | void>
 
 function execPath(path: string, result: { keys: string[]; pattern: RegExp }) {
   let i = 0,
@@ -65,15 +65,6 @@ export const matchRoute = <T extends { path: string }>(
     params,
     route: matchedRoute,
   }
-}
-
-export const redirect = (url: string, status?: number) => {
-  return new Response(null, {
-    status: status || 302,
-    headers: {
-      Location: url,
-    },
-  })
 }
 
 const toResponse = (data: any) => {
@@ -138,4 +129,28 @@ export const handleRequest = async (
     status: dataResponse.status,
     headers: dataResponse.headers,
   })
+}
+
+class JSONResponse extends Response {
+  constructor(data: any, init?: ResponseInit) {
+    super(JSON.stringify(data), init)
+    this.headers.set("Content-Type", "application/json; charset=utf-8")
+  }
+}
+
+export const json = (data: any, init?: ResponseInit) => {
+  return new JSONResponse(data, init)
+}
+
+class RedirectResponse extends Response {
+  constructor(url: string, _init: number | ResponseInit = 302) {
+    const init: ResponseInit =
+      typeof _init === "number" ? { status: _init } : _init
+    super(null, init)
+    this.headers.set("Location", url)
+  }
+}
+
+export const redirect = (url: string, init: number | ResponseInit) => {
+  return new RedirectResponse(url, init)
 }

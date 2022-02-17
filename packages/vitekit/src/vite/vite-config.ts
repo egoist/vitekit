@@ -10,13 +10,16 @@ export const getViteConfig = (kit: ViteKit, isServer: boolean) => {
     server: {
       middlewareMode: true,
     },
+    resolve: {
+      alias: {},
+    },
     build: {
       outDir: path.join(kit.outDir, isServer ? "server" : "client"),
       ssr: isServer,
       rollupOptions: {
         input: isServer
-          ? path.join(kit.runtimeDir, "server.js")
-          : path.join(kit.runtimeDir, "client.js"),
+          ? path.join(kit.generatedPackagesDir, "server.js")
+          : path.join(kit.generatedPackagesDir, "client.js"),
         output: {
           format: "esm",
         },
