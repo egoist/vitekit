@@ -112,9 +112,9 @@ export const handleRequest = async (
   }
 
   if (type === "loader") {
-    Object.assign(args.__loaderData, result)
+    Object.assign(args.__loaderData, await result.json())
   } else if (type === "action") {
-    Object.assign(args.__actionData, result)
+    Object.assign(args.__actionData, await result.json())
   }
 
   args.__notFound = notFound

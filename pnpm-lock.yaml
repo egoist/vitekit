@@ -85,7 +85,7 @@ importers:
       upath: 2.0.1
       vue: 3.2.27
 
-  playground/simple:
+  playground/test-simple:
     specifiers:
       '@vitekit/adapter-node': workspace:*
       '@vitekit/framework-vue': workspace:*

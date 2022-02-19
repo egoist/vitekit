@@ -26,3 +26,5 @@ export const findUp = (
   }
   return findUp(files, parent)
 }
+
+export const ownDir = path.dirname(getDirname(import.meta.url))
